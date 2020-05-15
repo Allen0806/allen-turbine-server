@@ -1,0 +1,42 @@
+# 服务器端口号
+server:
+  port: 8705
+
+spring:
+  application:
+    name: allen-turbine-server
+  http:
+    encoding:
+      charset: UTF-8
+  main:
+    banner-mode: "off"
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+    # true：实例以 IP 的形式注册；false：实例以机器 HOSTNAME 形式注册
+    prefer-ip-address: true
+    # 表示 Eureka Server 在接收到上一个心跳之后等待下一个心跳的秒数（默认 90 秒），
+    # 若不能在指定时间内收到心跳，则移除此实例，并禁止此实例的流量。
+    # 需要设置为至少高于 lease-renewal-interval-in-seconds 的值，不然会被误移除了。
+    lease-expiration-duration-in-seconds: 30
+    # 表示 Eureka Client 向 Eureka Server 发送心跳的频率（默认 30 秒），
+    # 如果在 lease-expiration-duration-in-seconds 指定的时间内未收到心跳，则移除该实例。
+    lease-renewal-interval-in-seconds: 10
+  client:
+    # Eureka Client 刷新本地缓存时间，默认30秒
+    registry-fetch-interval-seconds: 5
+    # 表示是否将自己注册到Eureka Server，默认为true。
+    register-with-eureka: true 
+    # 表示是否从Eureka Server获取注册信息，默认为true。
+    fetch-registry: true
+    # 表示客户端需要注册的 Eureka Server 的地址。
+    service-url:
+      defaultZone: http://allen:allen1234@${spring.cloud.client.ip-address}:8701/eureka/
+      
+turbine:
+  # 要监控的微服务列表，多个用,分隔
+  appConfig: allen-message-sending
+  clusterNameExpression: "'default'"
+# 聚合地址：http://localhost:8705/turbine.stream，将该地址贴到Hystrix Dashboard上
