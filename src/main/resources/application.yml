@@ -39,4 +39,7 @@ turbine:
   # 要监控的微服务列表，多个用,分隔
   appConfig: allen-message-sending
   clusterNameExpression: "'default'"
-# 聚合地址：http://localhost:8705/turbine.stream，将该地址贴到Hystrix Dashboard上
+  # 1. clusterNameExpression指定集群名称，默认表达式appName；此时：turbine.aggregator.clusterConfig需要配置想要监控的应用名称
+  # 2. 当clusterNameExpression: default时，turbine.aggregator.clusterConfig可以不写，因为默认就是default
+  # 3. 当clusterNameExpression: metadata['cluster']时，假设想要监控的应用配置了eureka.instance.metadata-map.cluster: ABC，则需要配置，同时turbine.aggregator.clusterConfig: ABC
+  # 聚合地址：http://localhost:8705/turbine.stream，将该地址贴到Hystrix Dashboard上
