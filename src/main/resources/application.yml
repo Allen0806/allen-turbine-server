@@ -1,13 +1,10 @@
 # 服务器端口号
 server:
-  port: 8705
+  port: 8705  servlet:    encoding:      charset: UTF-8
 
 spring:
   application:
     name: allen-turbine-server
-  http:
-    encoding:
-      charset: UTF-8
   main:
     banner-mode: "off"
 
